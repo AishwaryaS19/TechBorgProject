@@ -1,0 +1,18 @@
+<!--admin/dashboard.html-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+  <title>Admin Dashboard</title>
+</head>
+<body>
+
+  <h2>Welcome to Admin Dashboard</h2>
+  <p>Logged as: <span sec:authentication="name"></span></p>
+  <p>Has role: <span sec:authentication="authorities"></span></p>
+  
+  <p><a th:href="@{/categories}">Categories List</a></p>
+  <p><a th:href="@{/}">Home</a></p>
+  <p><a th:href="@{/logout}">Log out</a></p>
+</body>
+</html>
