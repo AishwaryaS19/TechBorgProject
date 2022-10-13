@@ -31,26 +31,11 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category save(Category category) {
+	public void saveCategory(Category category) {
 		log.info("Saving new category to the database", category.getName());
-        Category categorySave = new Category(category.getName());
-        return categoryRepository.save(categorySave);
+        this.categoryRepository.save(category);
 	}
-	
-	@Override
-    public Category update(Category category) {
-        Category categoryUpdate = null;
-        try {
-            categoryUpdate= categoryRepository.findById(category.getId()).get();
-            categoryUpdate.setName(category.getName());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        log.info("Updating existing category");
-        return categoryRepository.save(categoryUpdate);
-    }
-	
-//////
+
 	@Override
     public Category findById(Long id) {
     	Optional<Category> optional =  categoryRepository.findById(id);
@@ -64,11 +49,9 @@ public class CategoryServiceImpl implements CategoryService {
 		return category;
 	}
 
-////////
 	@Override
     public void deleteById(Long id) {
 		log.info("Deleting category from id {}", id);
         this.categoryRepository.deleteById(id);
-    }
-	
+    }	
 }

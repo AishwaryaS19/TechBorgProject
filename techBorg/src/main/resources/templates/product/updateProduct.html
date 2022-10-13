@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Update Product</title>
+    <link rel="stylesheet" 
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" 
+    crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+    <br>
+    <br>
+        <h2>UPDATE PRODUCT</h2>
+		<br>
+		<form action="#" th:action="@{/saveProduct}" th:object="${product}" method="POST">
+
+            <!-- Add hidden form field to handle update -->
+            <input type="hidden" th:field="*{id}" />
+
+			<label class="col-md-4 control-label">Product Name</label>
+            <input type="text" th:field="*{name}" class="form-control mb-4 col-4">
+
+			<label class="col-md-4 control-label" for="categories">Product Category</label>
+		    <select id="categories" name="categories" th:field = "*{category}" class="form-control mb-4 col-4">
+            	<option th:value = "null">-Select-</option>
+                <option th:each = "category : ${categories}"
+                        th:value = "${category.id}"
+                        th:text = "${category.name}">
+                </option>
+            </select>
+            
+            <label class="col-md-4 control-label">Product Description</label>
+            <input type="text" th:field="*{description}" class="form-control mb-4 col-4">
+            
+            <label class="col-md-4 control-label">Product Cost Price</label>
+            <input type="text" th:field="*{costPrice}" class="form-control mb-4 col-4">
+			
+			<label class="col-md-4 control-label">Product Sale Price</label>
+			<input type="text" th:field="*{salePrice}" class="form-control mb-4 col-4">
+			
+			<label class="col-md-4 control-label">Product Current Quantity</label>
+			<input type="text" th:field="*{currentQuantity}" class="form-control mb-4 col-4">
+			
+            <button type="submit" class="btn btn-info col-4">UPDATE PRODUCT</button>
+        </form>
+            
+        <hr>
+
+        <a th:href="@{/products}">BACK TO PRODUCT LIST</a>
+        
+	
+    </div>
+</body>
+
+</html>
