@@ -33,12 +33,11 @@ public class User implements UserDetails  {
     )
     private int id;
 
-    @Size(min = 3, max = 10, message = "Invalid first name!(3-10 characters)")
-    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Invalid first name!")
+    //@Size(min = 3, max = 10, message = "Invalid first name!(3-10 characters)")
+    @Pattern(regexp = "^[a-zA-Z ]{3,10}+$", message = "Invalid first name!(3-10 characters)")
     private String firstName;
 
-    @Size(min = 3, max = 10, message = "Invalid last name!(3-10 characters)")
-    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Invalid last name!")
+    @Pattern(regexp = "^[a-zA-Z ]{3,10}+$", message = "Invalid last name!(3-10 characters)")
     private String lastName;
 
     //@Email(message = "Invalid email address!")
@@ -49,8 +48,8 @@ public class User implements UserDetails  {
     @Length(min = 8, message = "Password should be atleast 8 characters long")
     private String password;
 
-    @Pattern(regexp = "[6-9][0-9]{9}", message = "Invalid mobile number.")
     //@Length(min = 10, message = "Mobile number should be atleast 10 number long")
+    @Pattern(regexp = "[6-9][0-9]{9}", message = "Invalid mobile number.")
     @Column(unique = true)
     private String mobile;
 

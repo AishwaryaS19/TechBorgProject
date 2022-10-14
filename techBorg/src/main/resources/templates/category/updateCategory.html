@@ -12,24 +12,29 @@
 
 <body>
     <div class="container">
+    <br>
         <h2>UPDATE CATEGORY</h2>
-		
+		<br>
 		<form action="#" th:action="@{/saveCategory}" th:object="${category}" method="POST">
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{id}" />
 
-            <input type="text" th:field="*{name}" class="form-control mb-4 col-4">
+            <input type="text" th:field="*{name}" class="form-control mb-4 col-4" Required>
 
             <button type="submit" class="btn btn-info col-4">UPDATE CATEGORY</button>
         </form>
-
-        <hr>
-
-        <a th:href="@{/categories}">BACK TO CATEGORY LIST</a>
+	<br>
+	<span th:text="${successMessage}"></span>
+    <div th:if="${bindingResult!=null && bindingResult.getAllErrors()!=null}">
+      <ul th:each="data : ${bindingResult.getAllErrors()}">
+        <li th:text="${data.getDefaultMessage()}"></li>
+      </ul>
+    </div>
     
         <hr>
 
+        <a th:href="@{/categories}">BACK TO CATEGORY LIST</a>
     </div>
 </body>
 

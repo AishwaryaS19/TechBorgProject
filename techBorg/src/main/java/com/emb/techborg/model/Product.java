@@ -13,38 +13,35 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "image"}))
 public class Product {
-	
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
 	
-	@Length(min = 2, message = "Product Name should be atleast 2 characters long")
-    @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Invalid Product Name! Alphabets and Digits Only!")
+    @Pattern(regexp = "^[a-zA-Z ]{3,40}+$", message = "Invalid product name!(3-40 characters)")
     private String name;
     
-	@Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Invalid Product Description!")
+    @Pattern(regexp = "^[a-zA-Z ]{3,300}+$", message = "Invalid product description!(3-300 characters)")
     private String description;
-    
+   
     private double costPrice;
     
     private double salePrice;
     
-    @Digits(integer=10, fraction=0, message = "Invalid Current Quantity! Digits Only!")
     private int currentQuantity;
     
-    /*
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private String image;
-    */
     
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
@@ -54,17 +51,17 @@ public class Product {
 
 	}
 
-	public Product(Long id, String name, String description, double costPrice, 
-			double salePrice, int currentQuantity, Category category) {
-		this.id = id;
+	public Product(String name, String description, double costPrice, double salePrice, int currentQuantity,
+			String image, Category category) {
 		this.name = name;
 		this.description = description;
 		this.costPrice = costPrice;
 		this.salePrice = salePrice;
 		this.currentQuantity = currentQuantity;
+		this.image = image;
 		this.category = category;
 	}
-	/*
+	
 	public Product(Long id, String name, String description, double costPrice, double salePrice, int currentQuantity,
 			String image, Category category) {
 		this.id = id;
@@ -76,7 +73,7 @@ public class Product {
 		this.image = image;
 		this.category = category;
 	}
-	*/
+
 	public Long getId() {
 		return id;
 	}
@@ -124,7 +121,7 @@ public class Product {
 	public void setCurrentQuantity(int currentQuantity) {
 		this.currentQuantity = currentQuantity;
 	}
-/*
+
 	public String getImage() {
 		return image;
 	}
@@ -132,7 +129,7 @@ public class Product {
 	public void setImage(String image) {
 		this.image = image;
 	}
-*/
+
 	public Category getCategory() {
 		return category;
 	}
@@ -140,4 +137,5 @@ public class Product {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
 }	

@@ -2,23 +2,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Login</title>
+  <title>Register</title>
 </head>
 <body>
   <form th:action="@{/register}" th:object="${user}" method="post">
-    <h3>Registration</h3>
-    <input type="text" th:field="*{firstName}" placeholder="First Name" /> <br/><br/>
-    <input type="text" th:field="*{lastName}" placeholder="Last Name" /> <br/><br/>
-    <input type="text" th:field="*{mobile}" placeholder="Mobile Number" /> <br/><br/>
-    <input type="text" th:field="*{email}" placeholder="Email" /> <br/><br/>
-    <input type="password" th:field="*{password}" placeholder="Password" /> <br/><br/>
-    <select th:field="*{role}" required>
+    <h3>REGISTER</h3>
+    <input type="text" th:field="*{firstName}" placeholder="First Name" Required/> <br/><br/>
+    <input type="text" th:field="*{lastName}" placeholder="Last Name" Required/> <br/><br/>
+    <input type="text" th:field="*{mobile}" placeholder="Mobile Number" Required/> <br/><br/>
+    <input type="text" th:field="*{email}" placeholder="Email" Required/> <br/><br/>
+    <input type="password" th:field="*{password}" placeholder="Password" Required/> <br/><br/>
+    <select th:field="*{role}" Required>
       <option value="">Select</option>
-      <option value="ADMIN">ADMIN</option>
-      <option value="USER">USER</option>
+      <option value="ADMIN">Admin</option>
+      <option value="USER">User</option>
     </select> <br/><br/>
-    <button type="submit">Register</button> | <a th:href="@{|/login|}" th:text="'Log in'"></a>
-    <br>
+    <button type="submit">REGISTER</button>  |  <a th:href="@{|/login|}" th:text="'LOGIN'"></a><br />
     <br>
     <hr>
     <span th:text="${successMessage}"></span>

@@ -21,8 +21,7 @@ public class Category {
     @Column(name = "category_id")
     private Long id;
 	
-	@Length(min = 2, message = "Category Name should be atleast 2 characters long")
-    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Invalid Category Name! Alphabets Only!")
+    @Pattern(regexp = "^[a-zA-Z ]{2,20}+$", message = "Invalid Category Name! Alphabets Only!")
     private String name;
 
     public Category() {

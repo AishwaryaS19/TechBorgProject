@@ -4,7 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.emb.techborg.model.Category;
 import com.emb.techborg.model.Product;
 import com.emb.techborg.service.CategoryService;
+import com.emb.techborg.service.CategoryServiceImpl;
 import com.emb.techborg.service.ProductService;
 
 @Controller
@@ -32,9 +37,17 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
     
+    private static final Logger log = LogManager.getLogger(ProductController.class);
+	
+	{
+		BasicConfigurator.configure();
+	}
+	
     @GetMapping("/products")
     public String products(Model model){
-        model.addAttribute("listProducts", productService.findAll());
+    	List<Product> productlist = productService.findAll();
+        model.addAttribute("listProducts", productlist);
+        model.addAttribute("size", productlist.size());
         return "product/products";
     }
     
@@ -48,19 +61,24 @@ public class ProductController {
 
     @PostMapping("/saveProduct")
     public String saveProduct(@Valid @ModelAttribute("product")Product product,
-    		BindingResult bindingResult, Model model){
+    		BindingResult bindingResult,
+    		@RequestParam("imageProduct") MultipartFile imageProduct,
+    		Model model){
         try {
         	if(bindingResult.hasErrors()){
 	        	model.addAttribute("bindingResult", bindingResult);
 	        	model.addAttribute("successMessage", "Fill in all details!");
 	            return "product/addProduct";
 	        }
-        	productService.saveProduct(product);
+        	productService.saveProduct(imageProduct, product);
         	model.addAttribute("successMessage", "Product saved successfully");
         	return "product/addProduct";
+        }catch(DataIntegrityViolationException e) {
+        	log.error(e);
+			model.addAttribute("successMessage", "Product already exists!");
         }catch (Exception e){
-            e.printStackTrace();
-            model.addAttribute("successMessage", "Product already exists!");
+        	log.error(e);
+            model.addAttribute("successMessage", "Error server!");
         }
         return "product/addProduct";
     }
@@ -75,8 +93,14 @@ public class ProductController {
     }
 
     @GetMapping("/deleteProduct/{id}")
-    public String deletedProduct(@PathVariable("id") long id){
-    	this.productService.deleteById(id);
+    public String deletedProduct(@PathVariable("id") long id, Model model){
+    	try{
+    		this.productService.deleteById(id);
+    		model.addAttribute("successMessage", "Deleted successfully!");
+	    }catch (Exception e){
+	    	log.error(e);
+	        model.addAttribute("successMessage", "Failed to delete!");
+	    }
         return "product/products";
     }
 }

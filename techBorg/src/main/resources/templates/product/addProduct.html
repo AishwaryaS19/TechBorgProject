@@ -12,50 +12,67 @@
 <body>
     <div class="container">
     <br>
-    <br>
-		<br>
         <h2>ADD PRODUCT</h2>
 		<br>
-		<form action="#" th:action="@{/saveProduct}" th:object="${product}" method="POST">
+		<form action="#" th:action="@{/saveProduct}" th:object="${product}" method="POST" enctype="multipart/form-data" Required>
 			
-			<label class="col-md-4 control-label">Product Name</label>
-            <input type="text" th:field="*{name}" class="form-control mb-4 col-4">
-            
-            <label class="col-md-4 control-label">Product Category</label>
-		    <select th:field = "*{category}" class="form-control mb-4 col-4">
+			<div style="display:flex; flex-direction: row; justify-content: left; align-items: center">
+			<label class="col-md-4 control-label" for="product name">Product Name</label>
+            <input type="text" name="product name" th:field="*{name}" class="form-control mb-3 col-3" Required>
+			</div>
+			
+			<div style="display:flex; flex-direction: row; justify-content: left; align-items: center">
+            <label class="col-md-4 control-label" for="product category">Product Category</label>
+		    <select th:field = "*{category}" name="product category" class="form-control mb-4 col-3">
             	<option th:value = "null">-Select-</option>
                 <option th:each = "category : ${categories}"
                         th:value = "${category.id}"
                         th:text = "${category.name}">
                 </option>
             </select>
-            
-            <label class="col-md-4 control-label">Product Description</label>
-            <input type="text" th:field="*{description}" class="form-control mb-4 col-4">
-            
-            <label class="col-md-4 control-label">Product Cost Price</label>
-            <input type="text" th:field="*{costPrice}" class="form-control mb-4 col-4">
-            
-			<label class="col-md-4 control-label">Product Sale Price</label>
-			<input type="text" th:field="*{salePrice}" class="form-control mb-4 col-4">
+			</div>
 			
-			<label class="col-md-4 control-label">Product Current Quantity</label>
-			<input type="text" th:field="*{currentQuantity}" class="form-control mb-4 col-4">
+			<div style="display:flex; flex-direction: row; justify-content: left; align-items: center">
+            <label class="col-md-4 control-label" for="product description">Product Description</label>
+            <input type="text" name="product description" th:field="*{description}" class="form-control mb-4 col-3" Required>
+			</div>
 			
-            <button type="submit" class="btn btn-info col-4"> SAVE PRODUCT</button>
+			<div style="display:flex; flex-direction: row; justify-content: left; align-items: center">
+            <label class="col-md-4 control-label" for="product cost price">Product Cost Price</label>
+            <input type="text" name="product cost price" th:field="*{costPrice}" class="form-control mb-4 col-3" Required>
+			</div>
+			
+			<div style="display:flex; flex-direction: row; justify-content: left; align-items: center">
+			<label class="col-md-4 control-label" for="product sale price">Product Sale Price</label>
+			<input type="text" name="product sale price" th:field="*{salePrice}" class="form-control mb-4 col-3" Required>
+			</div>
+			
+			<div style="display:flex; flex-direction: row; justify-content: left; align-items: center">
+			<label class="col-md-4 control-label" for="product current quantity">Product Current Quantity</label>
+			<input type="text" name="product current quantity" th:field="*{currentQuantity}" class="form-control mb-4 col-3" Required>
+			</div>
+			
+			<div style="display:flex; flex-direction: row; justify-content: left; align-items: center">
+			<label class="col-md-4 control-label" for="imageProduct">Product Image</label><br>
+			<input id="imageProduct" name="imageProduct" class="input-file" type="file" Required><br><br>
+			</div>
+			
+			<div style="display:flex; flex-direction: row; justify-content: left; align-items: center">
+            <button type="submit" class="btn btn-info col-3"> SAVE PRODUCT</button>
+			</div>
+			
         </form>
-
-        <hr>
-
-        <a th:href="@{/products}"> BACK TO PRODUCT LIST</a>
-
+	<br>
 	<span th:text="${successMessage}"></span>
     <div th:if="${bindingResult!=null && bindingResult.getAllErrors()!=null}">
       <ul th:each="data : ${bindingResult.getAllErrors()}">
         <li th:text="${data.getDefaultMessage()}"></li>
       </ul>
     </div>
-    
+    	
+    	<hr>
+
+        <a th:href="@{/products}"> BACK TO PRODUCT LIST</a>
     </div>
 </body>
 

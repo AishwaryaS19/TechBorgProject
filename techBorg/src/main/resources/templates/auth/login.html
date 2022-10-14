@@ -6,10 +6,12 @@
 </head>
 <body>
     <form th:action="@{/login}" method="POST" class="form-signin">
-        <h3 th:text="Login"></h3>
-        <input type="text" name="email" th:placeholder="Email" /> <br /><br />
-        <input type="password" th:placeholder="Password" name="password" /> <br /><br />
-        <button type="Submit" th:text="Login"></button> | <a th:href="@{|/register|}" th:text="'Register'"></a><br />
+        <h3 th:text="LOGIN"></h3>
+        <input type="text" name="email" th:placeholder="Email" Required/> <br /><br />
+        <input type="password" th:placeholder="Password" name="password" Required/> <br /><br />
+        <button type="Submit" th:text="LOGIN"></button>  |  <a th:href="@{|/register|}" th:text="'REGISTER'"></a><br />
+        <br>
+        <hr>
         <div th:if="${param.error}"><p>Invalid username or password!</p></div> <br />
     </form>
 </body>

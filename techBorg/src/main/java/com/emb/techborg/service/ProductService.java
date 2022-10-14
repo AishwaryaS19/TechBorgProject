@@ -10,13 +10,8 @@ import com.emb.techborg.model.Product;
 public interface ProductService {
 
 	List<Product> findAll();
-	//void saveProduct(MultipartFile imageProduct, Product product);
-	void saveProduct(Product product);
+	void saveProduct(MultipartFile imageProduct, Product product);
 	Product findById(Long id);
     void deleteById(Long id);
-    
-	
-    //Product save(MultipartFile imageProduct, Product product);
-    //Product update(MultipartFile imageProduct, Product product);
- 
+   
 }

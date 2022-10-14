@@ -5,27 +5,26 @@
     <title>TECHBORG</title>
 </head>
 <body>
-  <h2>TECHBORG</h2>
-  <p sec:authorize="hasRole('ROLE_ANONYMOUS')">Text visible to anonymous.</p>
-  <p sec:authorize="hasRole('USER')">Text visible to user.</p>
-  <p sec:authorize="hasRole('ADMIN')">Text visible to admin.</p>
-  <p sec:authorize="isAuthenticated()">Text visible only to authenticated users.</p>
+  <h2 sec:authorize="hasRole('ROLE_ANONYMOUS')">TECHBORG</h2>
+  <p sec:authorize="hasRole('USER')">TECHBORG USER</p>
+  <p sec:authorize="hasRole('ADMIN')">TECHBORG ADMIN</p>
+  <p sec:authorize="isAuthenticated()">TECHBORG AUTHENTICATED USER</p>
 
   <div sec:authorize="hasRole('ROLE_ANONYMOUS')">
-    <p><a th:href="@{|/login|}" th:text="'Log in'"></a></p>
-    <p><a th:href="@{|/register|}" th:text="'Register'"></a></p>
+    <p><a th:href="@{|/login|}" th:text="'LOGIN'"></a></p>
+    <p><a th:href="@{|/register|}" th:text="'REGISTER'"></a></p>
   </div>
 
   <div sec:authorize="isAuthenticated()">
     <p>Logged as: <span sec:authentication="name"></span></p>
     <p>Has role: <span sec:authentication="authorities"></span></p>
-    <p sec:authorize="hasAuthority('USER')"><a th:href="@{|/user/dashboard|}" th:text="'User Dashboard'"></a></p>
-    <p sec:authorize="hasAuthority('ADMIN')"><a th:href="@{|/admin/dashboard|}" th:text="'Admin Dashboard'"></a></p>
+    <p sec:authorize="hasAuthority('USER')"><a th:href="@{|/user/dashboard|}" th:text="'USER DASHBOARD'"></a></p>
+    <p sec:authorize="hasAuthority('ADMIN')"><a th:href="@{|/admin/dashboard|}" th:text="'ADMIN DASHBOARD'"></a></p>
     
     
     
     
-    <a th:href="@{/logout}">Log out</a>
+    <a th:href="@{/logout}">LOGOUT</a>
   </div>
 
 </body>
