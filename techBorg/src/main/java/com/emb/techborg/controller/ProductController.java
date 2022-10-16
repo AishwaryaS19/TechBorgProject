@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.emb.techborg.exception.ResourceNotFoundException;
 import com.emb.techborg.model.Category;
 import com.emb.techborg.model.Product;
 import com.emb.techborg.service.CategoryService;
@@ -29,6 +30,7 @@ import com.emb.techborg.service.CategoryServiceImpl;
 import com.emb.techborg.service.ProductService;
 
 @Controller
+@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
@@ -43,7 +45,7 @@ public class ProductController {
 		BasicConfigurator.configure();
 	}
 	
-    @GetMapping("/products")
+    @GetMapping("/productsList")
     public String products(Model model){
     	List<Product> productlist = productService.findAll();
         model.addAttribute("listProducts", productlist);
@@ -78,7 +80,7 @@ public class ProductController {
 			model.addAttribute("successMessage", "Product already exists!");
         }catch (Exception e){
         	log.error(e);
-            model.addAttribute("successMessage", "Error server!");
+            model.addAttribute("successMessage", "Something went wrong!");
         }
         return "product/addProduct";
     }
@@ -101,6 +103,6 @@ public class ProductController {
 	    	log.error(e);
 	        model.addAttribute("successMessage", "Failed to delete!");
 	    }
-        return "product/products";
+        return "redirect:/product/productsList";
     }
 }

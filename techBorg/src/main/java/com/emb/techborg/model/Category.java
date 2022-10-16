@@ -21,7 +21,7 @@ public class Category {
     @Column(name = "category_id")
     private Long id;
 	
-    @Pattern(regexp = "^[a-zA-Z ]{2,20}+$", message = "Invalid Category Name! Alphabets Only!")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{2,20}+$", message = "Invalid Category Name! Alphabets Only!")
     private String name;
 
     public Category() {
@@ -52,4 +52,10 @@ public class Category {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", name=" + name + "]";
+	}
+	
 }

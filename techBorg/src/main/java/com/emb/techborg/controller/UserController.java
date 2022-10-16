@@ -2,11 +2,13 @@ package com.emb.techborg.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
-    @GetMapping(value = {"/user/dashboard"})
+    @GetMapping(value = {"/dashboard"})
     public String userHome(){
         return "user/dashboard";
     }

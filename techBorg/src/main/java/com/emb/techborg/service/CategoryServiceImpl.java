@@ -1,5 +1,6 @@
 package com.emb.techborg.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.emb.techborg.exception.ResourceNotFoundException;
 import com.emb.techborg.model.Category;
 import com.emb.techborg.repository.CategoryRepository;
 
@@ -25,19 +27,19 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
-	public List<Category> findAll() {
+	public List<Category> findAll(){
 		log.info("Fetching list of categories");        
-        return categoryRepository.findAll();
+		return categoryRepository.findAll();
 	}
 
 	@Override
 	public void saveCategory(Category category) {
 		log.info("Saving new category to the database", category.getName());
-        this.categoryRepository.save(category);
+		this.categoryRepository.save(category);
 	}
 
 	@Override
-    public Category findById(Long id) {
+    public Category findById(Long id){
     	Optional<Category> optional =  categoryRepository.findById(id);
     	Category category = null;
 		if (optional.isPresent()) {
@@ -53,5 +55,5 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteById(Long id) {
 		log.info("Deleting category from id {}", id);
         this.categoryRepository.deleteById(id);
-    }	
+    }
 }

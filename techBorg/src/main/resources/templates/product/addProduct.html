@@ -14,7 +14,7 @@
     <br>
         <h2>ADD PRODUCT</h2>
 		<br>
-		<form action="#" th:action="@{/saveProduct}" th:object="${product}" method="POST" enctype="multipart/form-data" Required>
+		<form action="#" th:action="@{/product/saveProduct}" th:object="${product}" method="POST" enctype="multipart/form-data" Required>
 			
 			<div style="display:flex; flex-direction: row; justify-content: left; align-items: center">
 			<label class="col-md-4 control-label" for="product name">Product Name</label>
@@ -72,7 +72,7 @@
     	
     	<hr>
 
-        <a th:href="@{/products}"> BACK TO PRODUCT LIST</a>
+        <a th:href="@{/product/productsList}"> BACK TO PRODUCT LIST</a>
     </div>
 </body>
 

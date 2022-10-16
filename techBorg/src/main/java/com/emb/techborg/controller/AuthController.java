@@ -1,5 +1,8 @@
 package com.emb.techborg.controller;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.emb.techborg.model.User;
 import com.emb.techborg.service.UserService;
 import javax.validation.Valid;
@@ -17,19 +22,31 @@ public class AuthController {
 	
     @Autowired
     UserService userService;
+    
+    private static final Logger log = LogManager.getLogger(AuthController.class);
 	
-    @GetMapping(value = {"/login"})
+	{
+		BasicConfigurator.configure();
+	}
+	
+
+    @GetMapping("/")
+    public String homePage(){
+        return "/homepage";
+    }
+    
+    @GetMapping("/login")
     public String login(){
         return "auth/login";
     }
 
-    @GetMapping(value = {"/register"})
+    @GetMapping("/register")
     public String registerForm(Model model){
         model.addAttribute("user", new User());
         return "auth/register";
     }
 
-    @PostMapping(value = {"/register"})
+    @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("user") User user,
     		BindingResult bindingResult, Model model){
     	try {
@@ -47,10 +64,19 @@ public class AuthController {
 	        model.addAttribute("successMessage", "User registered successfully!");
 	        return "auth/register";
     	}catch(Exception e) {
-			e.printStackTrace();
-			model.addAttribute("successMessage", "Server error! Please try again later!");
+    		log.error(e);
+			model.addAttribute("successMessage", "Something went wrong!");
             }
 		return "auth/register";
-    	
+    }
+    
+    @GetMapping("/accessdenied")
+    public String accessDenied(){
+        return "/accessdenied";
+    }
+    
+    @GetMapping("/aboutus")
+    public String aboutUs(){
+        return "/aboutus";
     }
 }

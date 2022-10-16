@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.emb.techborg.exception.ResourceNotFoundException;
 import com.emb.techborg.model.Category;
 import com.emb.techborg.model.Product;
 import com.emb.techborg.repository.ProductRepository;
@@ -19,7 +20,7 @@ import com.emb.techborg.utils.ImageUpload;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-	
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -46,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
             }else{
                 if(imageUpload.uploadImage(imageProduct)){
                 	log.info("Uploading image to the database");                }
-                product.setImage(Base64.getEncoder().encodeToString(imageProduct.getBytes()));
+                	product.setImage(Base64.getEncoder().encodeToString(imageProduct.getBytes()));
             }
 			log.info("Saving new product to the database", product.getName());
 			product.setName(product.getName());
@@ -57,12 +58,12 @@ public class ProductServiceImpl implements ProductService {
 			product.setCurrentQuantity(product.getCurrentQuantity());
 	        this.productRepository.save(product);
     	}catch (Exception e){
-            e.printStackTrace();
+            log.error(e);
         }
     } 
     
     @Override
-    public Product findById(Long id) {
+    public Product findById(Long id){
     	Optional<Product> optional =  productRepository.findById(id);
     	Product product = null;
 		if (optional.isPresent()) {
@@ -76,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
     public void deleteById(Long id) {
-		log.info("Deleting category from id {}", id);
+		log.info("Deleting product from id {}", id);
         this.productRepository.deleteById(id);
     }	
 }

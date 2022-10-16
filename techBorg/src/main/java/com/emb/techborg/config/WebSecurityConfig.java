@@ -41,7 +41,6 @@ public class WebSecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
 
@@ -50,34 +49,32 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    	http.authorizeRequests()
+        // URL matching for accessibility
+        .antMatchers("/", "/login", "/register").permitAll()
+        .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+        .antMatchers("/account/**").hasAnyAuthority("USER")
+        .anyRequest().authenticated()
+        .and()
+        // form login
+        .csrf().disable().formLogin()
+        .loginPage("/login")
+        .failureUrl("/login?error=true")
+        .successHandler(sucessHandler)
+        .usernameParameter("email")
+        .passwordParameter("password")
+        .and()
+        // logout
+        .logout()
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .logoutSuccessUrl("/")
+        .and()
+        .exceptionHandling()
+        .accessDeniedPage("/accessdenied");
 
-                http.authorizeRequests()
-                // URL matching for accessibility
-                .antMatchers("/", "/login", "/register").permitAll()
-                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/account/**").hasAnyAuthority("USER")
-                .anyRequest().authenticated()
-                .and()
-                // form login
-                .csrf().disable().formLogin()
-                .loginPage("/login")
-                .failureUrl("/login?error=true")
-                .successHandler(sucessHandler)
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .and()
-                // logout
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-                .and()
-                .exceptionHandling()
-                .accessDeniedPage("/accessdenied");
-
-                http.authenticationProvider(authenticationProvider());
-                http.headers().frameOptions().sameOrigin();
-
-                return http.build();
+        http.authenticationProvider(authenticationProvider());
+        http.headers().frameOptions().sameOrigin();
+        return http.build();
     }
 
     @Bean

@@ -15,7 +15,7 @@
     <br>
         <h2>UPDATE CATEGORY</h2>
 		<br>
-		<form action="#" th:action="@{/saveCategory}" th:object="${category}" method="POST">
+		<form action="#" th:action="@{/category/saveCategory}" th:object="${category}" method="POST">
 
             <!-- Add hidden form field to handle update -->
             <input type="hidden" th:field="*{id}" />
@@ -34,8 +34,7 @@
     
         <hr>
 
-        <a th:href="@{/categories}">BACK TO CATEGORY LIST</a>
+        <a th:href="@{/category/categoriesList}">BACK TO CATEGORY LIST</a>
     </div>
 </body>
-
 </html>

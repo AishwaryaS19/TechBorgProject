@@ -1,6 +1,7 @@
 package com.emb.techborg.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -16,13 +17,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.emb.techborg.exception.ResourceNotFoundException;
 import com.emb.techborg.model.Category;
 import com.emb.techborg.service.CategoryService;
 import com.emb.techborg.service.CategoryServiceImpl;
 
 @Controller
+@RequestMapping("/category")
 public class CategoryController {
 	
 	@Autowired
@@ -34,7 +38,7 @@ public class CategoryController {
 		BasicConfigurator.configure();
 	}
 	
-    @GetMapping("/categories")
+	@GetMapping("/categoriesList")
     public String categories(Model model){
     	List<Category> categorylist = categoryService.findAll();
     	model.addAttribute("listCategories", categorylist);
@@ -66,20 +70,20 @@ public class CategoryController {
 			model.addAttribute("successMessage", "Category already exists!");
         }catch (Exception e){
         	log.error(e);
-            model.addAttribute("successMessage", "Error server!");
+            model.addAttribute("successMessage", "Something went wrong!");
         }
 		return "category/addCategory";
     }
 
-    @GetMapping("/updateForm/{id}")
-    public String updateCategoryForm(@PathVariable(value = "id") long id, Model model) {
+    @GetMapping("/updateCategoryForm/{id}")
+    public String updateCategoryForm(@PathVariable(value = "id") long id, Model model){
     	Category category = categoryService.findById(id);
     	model.addAttribute("category", category);
         return "category/updateCategory";
     }
 
     @GetMapping("/deleteCategory/{id}")
-    public String delete(@PathVariable("id") long id, Model model){
+    public String delete(@PathVariable("id") long id, Model model) {
         try{
         	this.categoryService.deleteById(id);
         	model.addAttribute("successMessage", "Deleted successfully!");
@@ -87,6 +91,6 @@ public class CategoryController {
         	log.error(e);
             model.addAttribute("successMessage", "Failed to delete!");
         }
-        return "redirect:/categories";
+        return "redirect:/category/categoriesList";
     }
 }

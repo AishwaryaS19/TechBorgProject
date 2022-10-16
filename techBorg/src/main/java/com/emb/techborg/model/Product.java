@@ -18,6 +18,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
+
 @Entity
 @Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "image"}))
 public class Product {
@@ -27,10 +28,10 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 	
-    @Pattern(regexp = "^[a-zA-Z ]{3,40}+$", message = "Invalid product name!(3-40 characters)")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{3,40}+$", message = "Invalid product name!(3-40 characters)")
     private String name;
     
-    @Pattern(regexp = "^[a-zA-Z ]{3,300}+$", message = "Invalid product description!(3-300 characters)")
+    @Length(min = 3, max = 100, message = "Invalid product description!(3-300 characters)")
     private String description;
    
     private double costPrice;
